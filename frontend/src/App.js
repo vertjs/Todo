@@ -4,7 +4,7 @@ import useJsonFetch from './hooks/useJsonFetch'
 export default function App() {
   const [items] = useJsonFetch(process.env.REACT_APP_ITEMS_URL)
   const [data, setData] = useState([]) // БД
-//  const [draggedTask, setDraggedTask] = useState({})
+  const [draggedTask, setDraggedTask] = useState({})
 
   useEffect(() => {
     if(items.length > 0) {
@@ -12,27 +12,32 @@ export default function App() {
     }
   }, [items])
 
-  const handleOnDrag = (event, todo) => {
+  const handleOnDrag = (event, todo) => { // элемент, который тянут
     event.preventDefault()
-    let newArr = data.filter(task => task.id !== todo.id)
-    console.log(newArr)
-    setData([...data, newArr])
+    setDraggedTask(todo)
   }
 
   const handleOnDragOver = (event) => {
     event.preventDefault();
   }
 
-  const handleOnDrop = (event, todo) => {
-    event.preventDefault();
-
-
+  const handleOnDrop = (event, todo) => { // элемент, рядом с которым падает первый (тот, который тянут)
+    event.preventDefault()
+    const newArr = data.filter(task => task.id !== draggedTask.id)
+    if(todo === undefined) {
+      newArr.splice(0, 0, draggedTask)
+    } else {
+      newArr.splice(todo.id-1, 0, draggedTask)
+    }
+    setData(newArr)
+    setDraggedTask({})
+    console.log(todo)
   }
 
   return (
     <table className="table table-dark">
       <thead>
-        <tr>
+        <tr draggable onDrop={e => handleOnDrop(e)} onDragOver={e => handleOnDragOver(e)}>
           <th>№ п/п</th>
           <th>ФИО</th>
           <th>Задача</th>
