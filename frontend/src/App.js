@@ -27,11 +27,18 @@ export default function App() {
     if(todo === undefined) {
       newArr.splice(0, 0, draggedTask)
     } else {
-      newArr.splice(todo.id-1, 0, draggedTask)
+      let idDraggedTask = data.findIndex(o => o.id === draggedTask.id)
+      let idTodo = newArr.findIndex(o => o.id === todo.id)
+        if(idTodo < idDraggedTask) {
+            newArr.splice(idTodo, 0, draggedTask)
+        } else if(idTodo > idDraggedTask) {
+            newArr.splice(idTodo + 1, 0, draggedTask)
+        } else if(idTodo === newArr.length - 1) {
+            newArr.splice(newArr.length - 1, 0, draggedTask)
+        }
     }
     setData(newArr)
     setDraggedTask({})
-    console.log(todo)
   }
 
   return (
@@ -44,7 +51,6 @@ export default function App() {
           <th>Дата</th>
         </tr>
       </thead>
-
       <tbody>
         {data.length > 0 && data.map(o => (
           <tr key={o.id} draggable onDrag={(e) => handleOnDrag(e, o)} onDrop={e => handleOnDrop(e, o)} onDragOver={e => handleOnDragOver(e)}>
@@ -54,7 +60,6 @@ export default function App() {
             <td>{o.date}</td>
           </tr>
         ))}
-
       </tbody>
     </table>
   );
