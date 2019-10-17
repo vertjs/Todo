@@ -25,11 +25,6 @@ export default function App() {
     event.preventDefault()
     const newArr = data.filter(task => task.id !== draggedTask.id)
 
-    for(let i = 1; i < data.length; i++) {
-      data[i].npp = i
-      console.log(data[i].npp)
-    }
-
     if(todo === undefined) {
       newArr.splice(0, 0, draggedTask)
     } else {
@@ -44,13 +39,9 @@ export default function App() {
           } else if(idTodo === newArr.length - 1) {
             newArr.splice(newArr.length - 1, 0, draggedTask)
           }
-        }  
-        //console.log(idDraggedTask)
-        //console.log(idTodo)
-        //console.log(draggedTask.npp)
-       // console.log(todo.npp)
-        
+        }
       }
+    newArr.forEach((el,i) => el.npp = i+1)
     setData(newArr)
     setDraggedTask({})
   }
