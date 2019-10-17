@@ -24,19 +24,31 @@ export default function App() {
   const handleOnDrop = (event, todo) => { // элемент, рядом с которым падает первый (тот, который тянут)
     event.preventDefault()
     const newArr = data.filter(task => task.id !== draggedTask.id)
+    
+
     if(todo === undefined) {
       newArr.splice(0, 0, draggedTask)
+     
+      console.log(todo)
     } else {
-      let idDraggedTask = data.findIndex(o => o.id === draggedTask.id)
-      let idTodo = newArr.findIndex(o => o.id === todo.id)
-        if(idTodo < idDraggedTask) {
+        let idDraggedTask = data.findIndex(o => o.id === draggedTask.id)
+        let idTodo = newArr.findIndex(o => o.id === todo.id)
+        
+        if(idDraggedTask !== -1) {
+          if(idTodo < idDraggedTask) {
             newArr.splice(idTodo, 0, draggedTask)
-        } else if(idTodo > idDraggedTask) {
+          } else if(idTodo > idDraggedTask || idTodo === idDraggedTask) {
             newArr.splice(idTodo + 1, 0, draggedTask)
-        } else if(idTodo === newArr.length - 1) {
+          } else if(idTodo === newArr.length - 1) {
             newArr.splice(newArr.length - 1, 0, draggedTask)
-        }
-    }
+          }
+        }  
+        //console.log(idDraggedTask)
+        //console.log(idTodo)
+        console.log(draggedTask.npp)
+        console.log(todo.npp)
+        
+      }
     setData(newArr)
     setDraggedTask({})
   }
