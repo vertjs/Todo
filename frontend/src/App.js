@@ -59,7 +59,7 @@ export default function App() {
       <tbody>
         {data.length > 0 && data.map(o => (
           <tr key={o.id} draggable onDrag={(e) => handleOnDrag(e, o)} onDrop={e => handleOnDrop(e, o)} onDragOver={e => handleOnDragOver(e)}>
-            <th scope="row">{o.npp}</th>
+            <td scope="row">{o.npp}</td>
             <td>{o.user}</td>
             <td>{o.task}</td>
             <td>{o.date}</td>
